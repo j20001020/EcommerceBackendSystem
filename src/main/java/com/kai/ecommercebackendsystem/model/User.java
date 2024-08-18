@@ -1,5 +1,7 @@
 package com.kai.ecommercebackendsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kai.ecommercebackendsystem.dto.UserDto;
 import com.kai.ecommercebackendsystem.model.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -36,5 +39,17 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    public UserDto toUserDto() {
+        UserDto userDto = new UserDto();
+        userDto.setId(this.id);
+        userDto.setUsername(this.username);
+        userDto.setNickname(this.nickname);
+        userDto.setEmail(this.email);
+        userDto.setUserImg(this.userImg);
+        userDto.setCreatedTime(this.getCreatedTime());
+        userDto.setUpdatedTime(this.getUpdatedTime());
+        return userDto;
     }
 }

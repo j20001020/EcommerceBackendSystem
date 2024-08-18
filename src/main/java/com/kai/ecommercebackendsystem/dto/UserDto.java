@@ -1,22 +1,23 @@
 package com.kai.ecommercebackendsystem.dto;
 
-import com.kai.ecommercebackendsystem.model.User;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class UserDto {
 
-    @Pattern(regexp = "^\\S{5,16}$", message = "帳號必須為長度6~16位")
+    private Integer id;
+
     private String username;
 
-    @Pattern(regexp = "^\\S{5,16}$", message = "密碼必須為長度6~16位")
-    private String password;
+    private String nickname;
 
-    public User toUser() {
-        User user = new User();
-        user.setUsername(this.username);
-        user.setPassword(this.password);
-        return user;
-    }
+    private String email;
+
+    private String userImg;
+
+    private Date createdTime;
+
+    private Date updatedTime;
 }

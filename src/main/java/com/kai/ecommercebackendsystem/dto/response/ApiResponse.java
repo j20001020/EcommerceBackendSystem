@@ -11,9 +11,12 @@ public class ApiResponse<T> {
 
     private T data;
 
-    public ApiResponse(ResponseStatus status, String message, T data) {
-        this.status = status.getValue();
-        this.message = message;
-        this.data = data;
+    public static <T> ApiResponse<T> of(ResponseStatus status, String message, T data) {
+        var response = new ApiResponse<T>();
+        response.status = status.getValue();
+        response.message = message;
+        response.data = data;
+
+        return response;
     }
 }

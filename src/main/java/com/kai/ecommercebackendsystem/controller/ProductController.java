@@ -14,6 +14,6 @@ public class ProductController {
 
     @GetMapping("/list")
     public ResponseEntity<ApiResponse<String>> list() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(ResponseStatus.OK, "success", "get all product data..."));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, "success", "get all product data..."));
     }
 }
