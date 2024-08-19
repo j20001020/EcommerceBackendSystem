@@ -11,4 +11,5 @@ public class ResponseMessage {
     public static final String PASSWORD_INCORRECT = "Password is incorrect";
     public static final String NEW_PASSWORD_INCORRECT = "New passwords are not same";
     public static final String CREATE_SUCCESS = "Create successfully";
+    public static final String GET_ALL_CATEGORY_SUCCESS = "Get category list successfully";
 }

@@ -7,6 +7,8 @@ import com.kai.ecommercebackendsystem.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -17,5 +19,11 @@ public class CategoryServiceImpl implements CategoryService {
     public void createCategory(CategoryDto categoryDto) {
         Category category = categoryDto.toCategory();
         categoryRepository.save(category);
+    }
+
+    @Override
+    public List<Category> getAllCategory() {
+        List<Category> categoryList = categoryRepository.findAll();
+        return categoryList;
     }
 }
