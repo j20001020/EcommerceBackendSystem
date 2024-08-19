@@ -10,4 +10,5 @@ public class ResponseMessage {
     public static final String PARAM_MISS = "Missing required parameters";
     public static final String PASSWORD_INCORRECT = "Password is incorrect";
     public static final String NEW_PASSWORD_INCORRECT = "New passwords are not same";
+    public static final String CREATE_SUCCESS = "Create successfully";
 }
