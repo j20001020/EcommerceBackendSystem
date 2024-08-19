@@ -9,4 +9,6 @@ public interface CategoryService {
     void createCategory(CategoryDto categoryDto);
 
     List<Category> getAllCategory();
+
+    Category findById(Integer id);
 }

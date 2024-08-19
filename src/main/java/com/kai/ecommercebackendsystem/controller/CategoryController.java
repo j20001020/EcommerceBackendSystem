@@ -32,4 +32,15 @@ public class CategoryController {
         List<Category> categoryList = categoryService.getAllCategory();
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_ALL_CATEGORY_SUCCESS, categoryList));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Category>> getCategoryById(@PathVariable Integer id) {
+        Category category = categoryService.findById(id);
+
+        if (category == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.of(ResponseStatus.NOT_FOUND, ResponseMessage.CATEGORY_NOT_FOUND, null));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_CATEGORY_BY_ID_SUCCESS, category));
+    }
 }
