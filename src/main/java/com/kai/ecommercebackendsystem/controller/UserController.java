@@ -63,6 +63,13 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>>  updateUserInfo(@PathVariable Integer id, @Valid @RequestBody UserDto userDto) {
+        userService.updateUserInfo(id, userDto);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
+    }
+
+
 
     private Authentication authenticateUser(String username, String password) {
         Authentication token = new UsernamePasswordAuthenticationToken(

@@ -19,7 +19,7 @@ spring:
     time-zone: GMT+8
 jwt:
   secret-key: 1234567890abcdefghij1234567890ab
-  valid-seconds: 600
+  valid-seconds: 3600
   excluded-paths: /users/register,/users/login
 logging:
   level:

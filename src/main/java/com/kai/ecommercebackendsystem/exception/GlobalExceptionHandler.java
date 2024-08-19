@@ -15,7 +15,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponse> handleValidationException(MethodArgumentNotValidException e) {
         e.printStackTrace();
 
-        String info = getMessage(e);
+//        String info = getMessage(e);
+        String info = e.getMessage();
         ExceptionResponse response = ExceptionResponse.of(ExceptionType.VALIDATION_ERROR, info);
 
         return ResponseEntity.badRequest().body(response);
