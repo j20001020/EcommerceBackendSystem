@@ -43,6 +43,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.updateUserInfo(id, userDto.getNickname(), userDto.getEmail());
     }
 
+    @Override
+    @Transactional
+    public void updateUserImg(Integer id, String url) {
+        userRepository.updateUserImg(id, url);
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(Integer id, String newPassword) {
+        userRepository.updatePassword(id, passwordEncoder.encode(newPassword));
+    }
+
     private void encodePassword(AccountDto accountDto) {
         accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
     }

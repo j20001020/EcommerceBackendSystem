@@ -7,4 +7,7 @@ public class ResponseMessage {
     public static final String GET_USER_BY_ID_SUCCESS = "Get user by id successfully";
     public static final String USER_NOT_FOUND = "User with the specified ID was not found";
     public static final String UPDATE_SUCCESS = "Update successfully";
+    public static final String PARAM_MISS = "Missing required parameters";
+    public static final String PASSWORD_INCORRECT = "Password is incorrect";
+    public static final String NEW_PASSWORD_INCORRECT = "New passwords are not same";
 }

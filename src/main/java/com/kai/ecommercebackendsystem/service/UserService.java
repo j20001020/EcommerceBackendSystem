@@ -13,4 +13,8 @@ public interface UserService {
     User getUserById(Integer id);
 
     void updateUserInfo(Integer id, UserDto userDto);
+
+    void updateUserImg(Integer id, String url);
+
+    void updatePassword(Integer id, String newPassword);
 }
