@@ -11,4 +11,6 @@ public interface CategoryService {
     List<Category> getAllCategory();
 
     Category findById(Integer id);
+
+    void updateCategory(Integer id, CategoryDto categoryDto);
 }

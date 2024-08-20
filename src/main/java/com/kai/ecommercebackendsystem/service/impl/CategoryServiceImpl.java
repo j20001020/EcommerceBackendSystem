@@ -6,6 +6,7 @@ import com.kai.ecommercebackendsystem.repository.CategoryRepository;
 import com.kai.ecommercebackendsystem.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,12 +24,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategory() {
-        List<Category> categoryList = categoryRepository.findAll();
-        return categoryList;
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category findById(Integer id) {
         return categoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void updateCategory(Integer id, CategoryDto categoryDto) {
+        Category category = categoryDto.toCategory();
+        categoryRepository.update(id, category);
     }
 }

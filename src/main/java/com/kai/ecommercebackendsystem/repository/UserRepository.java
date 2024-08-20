@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Modifying
     @Query("UPDATE User u SET u.nickname = :nickname, u.email = :email, u.updatedTime = CURRENT_TIMESTAMP WHERE u.id = :id")
-    void updateUserInfo(@Param("id") Integer id, @Param("nickname") String nickname, @Param("email") String email);
+    void updateUserInfo(Integer id, String nickname, String email);
 
     @Modifying
     @Query("UPDATE User u SET u.userImg = :url, u.updatedTime = CURRENT_TIMESTAMP WHERE u.id = :id")

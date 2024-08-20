@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createCategory(@RequestBody @Valid CategoryDto categoryDto) {
+    public ResponseEntity<ApiResponse<?>> createCategory(@RequestBody @Validated(CategoryDto.Create.class) CategoryDto categoryDto) {
         categoryService.createCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.CREATE_SUCCESS, null));
     }
@@ -42,5 +43,11 @@ public class CategoryController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_CATEGORY_BY_ID_SUCCESS, category));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> updateCategory(@PathVariable Integer id, @RequestBody @Validated(CategoryDto.Update.class) CategoryDto categoryDto) {
+        categoryService.updateCategory(id, categoryDto);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
     }
 }
