@@ -10,4 +10,6 @@ public interface ProductService {
     PageBean<Product> getProductListByPage(Integer page, Integer size, Integer categoryId);
 
     Product getProductById(Integer id);
+
+    void updateProduct(Integer id, ProductDto productDto);
 }

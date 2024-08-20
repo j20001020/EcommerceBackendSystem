@@ -10,6 +10,7 @@ import com.kai.ecommercebackendsystem.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ApiResponse<?>> createProduct(@RequestBody @Validated ProductDto productDto) {
         productService.createProduct(productDto);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.CREATE_SUCCESS, null));
     }
@@ -44,5 +45,11 @@ public class ProductController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_PRODUCT_BY_ID_SUCCESS, product));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> updateProduct(@PathVariable Integer id, @RequestBody @Validated ProductDto productDto) {
+        productService.updateProduct(id, productDto);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
     }
 }

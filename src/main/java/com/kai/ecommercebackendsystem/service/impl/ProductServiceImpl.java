@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Integer id) {
         return productRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void updateProduct(Integer id, ProductDto productDto) {
+        Product product = productDto.toProduct();
+        productRepository.update(id, product);
     }
 
     private Page<Product> getProductPage(Integer categoryId, Pageable pageable) {
