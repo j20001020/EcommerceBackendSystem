@@ -38,4 +38,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryDto.toCategory();
         categoryRepository.update(id, category);
     }
+
+    @Override
+    public void deleteCategory(Integer id) {
+        categoryRepository.deleteById(id);
+    }
 }

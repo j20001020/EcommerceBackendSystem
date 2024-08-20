@@ -48,6 +48,12 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> updateCategory(@PathVariable Integer id, @RequestBody @Validated(CategoryDto.Update.class) CategoryDto categoryDto) {
         categoryService.updateCategory(id, categoryDto);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteCategory(@PathVariable Integer id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.DELETE_SUCCESS, null));
     }
 }
