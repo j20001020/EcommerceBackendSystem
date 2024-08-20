@@ -31,7 +31,18 @@ public class ProductController {
             @RequestParam Integer size,
             @RequestParam(required = false) Integer categoryId
     ) {
-        PageBean pageBean = productService.getProductListByPage(page, size, categoryId);
+        PageBean<Product> pageBean = productService.getProductListByPage(page, size, categoryId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_PRODUCT_LIST_SUCCESS, pageBean));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Product>> getProductById(@PathVariable Integer id) {
+        Product product = productService.getProductById(id);
+
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.of(ResponseStatus.NOT_FOUND, ResponseMessage.CATEGORY_NOT_FOUND, null));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.GET_PRODUCT_BY_ID_SUCCESS, product));
     }
 }

@@ -24,12 +24,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageBean getProductListByPage(Integer page, Integer size, Integer categoryId) {
+    public PageBean<Product> getProductListByPage(Integer page, Integer size, Integer categoryId) {
         Pageable pageable = PageRequest.of(--page, size);
 
         Page<Product> productPage = getProductPage(categoryId, pageable);
 
         return getPageBean(productPage);
+    }
+
+    @Override
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElse(null);
     }
 
     private Page<Product> getProductPage(Integer categoryId, Pageable pageable) {
