@@ -45,6 +45,11 @@ public class ProductServiceImpl implements ProductService {
         productRepository.update(id, product);
     }
 
+    @Override
+    public void deleteProduct(Integer id) {
+        productRepository.deleteById(id);
+    }
+
     private Page<Product> getProductPage(Integer categoryId, Pageable pageable) {
         Page<Product> productPage;
         if (categoryId != null) {
