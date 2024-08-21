@@ -31,7 +31,7 @@ public class GcpUtil {
 
         // 設定條件以避免競爭狀況和資料損毀
         Storage.BlobWriteOption precondition;
-        if (storage.get(BUCKET_NAME, objectName) == null) {
+    if (storage.get(BUCKET_NAME, objectName) == null) {
             precondition = Storage.BlobWriteOption.doesNotExist();
         } else {
             precondition = Storage.BlobWriteOption.generationMatch(storage.get(BUCKET_NAME, objectName).getGeneration());
