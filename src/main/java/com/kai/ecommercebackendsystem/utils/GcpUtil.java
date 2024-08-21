@@ -14,11 +14,12 @@ public class GcpUtil {
 
     private static final String PROJECT_ID = "ecommercebackendsystem";
     private static final String BUCKET_NAME = "ecommerce_backend_system";
-    private static final String JSON_PATH = "src/main/resources/static/ecommercebackendsystem-9b564b456a27.json";
+    private static final String JSON_PATH = "C:\\Users\\j2000\\Desktop\\FileCloud\\ecommercebackendsystem-9b564b456a27.json";
 
     public static String uploadFile(String objectName, InputStream file) throws IOException {
 
         // 初始化 Storage 服務，使用服務帳戶憑證進行身份驗證
+
         Storage storage = StorageOptions.newBuilder()
                 .setProjectId(PROJECT_ID)
                 .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(JSON_PATH)))
