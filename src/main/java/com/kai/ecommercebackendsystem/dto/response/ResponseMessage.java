@@ -17,4 +17,5 @@ public class ResponseMessage {
     public static final String DELETE_SUCCESS = "Delete successfully";
     public static final String GET_PRODUCT_LIST_SUCCESS = "Get product list by page successfully";
     public static final String GET_PRODUCT_BY_ID_SUCCESS = "Get product by id successfully";
+    public static final String UPLOAD_SUCCESS = "Upload file successfully";
 }

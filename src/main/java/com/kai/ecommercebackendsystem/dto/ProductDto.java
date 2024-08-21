@@ -4,12 +4,14 @@ import com.kai.ecommercebackendsystem.model.Product;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.groups.Default;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
 @Data
 public class ProductDto {
 
+    @NotNull(groups = Update.class)
     private Integer id;
 
     @NotEmpty
@@ -45,4 +47,6 @@ public class ProductDto {
         product.setRemark(this.remark);
         return product;
     }
+
+    public interface Update extends Default {}
 }
