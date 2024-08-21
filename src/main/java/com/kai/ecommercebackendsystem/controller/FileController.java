@@ -3,6 +3,7 @@ package com.kai.ecommercebackendsystem.controller;
 import com.kai.ecommercebackendsystem.dto.response.ApiResponse;
 import com.kai.ecommercebackendsystem.dto.response.ResponseMessage;
 import com.kai.ecommercebackendsystem.dto.response.ResponseStatus;
+import com.kai.ecommercebackendsystem.utils.GcpUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class FileController {
         String originalFilename = file.getOriginalFilename();
         assert originalFilename != null;
         String filename = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
-        file.transferTo(new File("C:\\Users\\j2000\\Desktop\\FileCloud\\" + filename));
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPLOAD_SUCCESS, "IMAGE URL..."));
+        String url = GcpUtil.uploadFile(filename, file.getInputStream());
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPLOAD_SUCCESS, url));
     }
 }
