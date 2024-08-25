@@ -11,6 +11,9 @@ import com.kai.ecommercebackendsystem.utils.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +37,10 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final StringRedisTemplate stringRedisTemplate;
+
+    @Value("${jwt.valid-seconds}")
+    private int VALID_SECONDS;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> register(@Valid @RequestBody AccountDto accountDto) {
@@ -49,10 +57,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<String>> login(@Valid @RequestBody AccountDto accountDto) {
         Authentication auth = authenticateUser(accountDto.getUsername(), accountDto.getPassword());
-
         User user = (User) auth.getPrincipal();
-
         String jwt = jwtUtil.generateToken(user);
+
+        setRedisToken(jwt);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.LOGIN_SUCCESS, jwt));
     }
@@ -82,18 +90,18 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/pwd")
-    public ResponseEntity<ApiResponse<?>> updatePassword(@PathVariable Integer id, @RequestBody Map<String, String> params) {
+    public ResponseEntity<ApiResponse<?>> updatePassword(@PathVariable Integer id, @RequestBody Map<String, String> params, @RequestHeader("Authorization") String jwt) {
         String oldPwd = params.get("old_pwd");
         String newPwd = params.get("new_pwd");
         String rePwd = params.get("re_pwd");
 
-        if (isVlidParams(oldPwd, newPwd, rePwd)) {
+        if (isValidParams(oldPwd, newPwd, rePwd)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.of(ResponseStatus.BAD_REQUEST, ResponseMessage.PARAM_MISS, null));
         }
 
         User user = userService.getUserById(id);
 
-        if (!isPwdValid(user.getPassword(), oldPwd)) {
+        if (!isValidPwd(user.getPassword(), oldPwd)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.of(ResponseStatus.BAD_REQUEST, ResponseMessage.PASSWORD_INCORRECT, null));
         }
 
@@ -103,19 +111,31 @@ public class UserController {
 
         userService.updatePassword(id, newPwd);
 
+        deleteRedisToken(jwt);
+
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(ResponseStatus.OK, ResponseMessage.UPDATE_SUCCESS, null));
     }
 
-    private boolean isVlidParams(String oldPwd, String newPwd, String rePwd) {
+    private void deleteRedisToken(String jwt) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.getOperations().delete(jwt.substring("Bearer ".length()));
+    }
+
+    private boolean isValidParams(String oldPwd, String newPwd, String rePwd) {
         return !StringUtils.hasLength(oldPwd) || !StringUtils.hasLength(newPwd) || !StringUtils.hasLength(rePwd);
     }
 
-    private boolean isPwdValid(String password, String oldPassword) {
+    private boolean isValidPwd(String password, String oldPassword) {
         return passwordEncoder.matches(oldPassword, password);
     }
 
     private Authentication authenticateUser(String username, String password) {
         Authentication token = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(token);
+    }
+
+    private void setRedisToken(String jwt) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.set(jwt, jwt, VALID_SECONDS, TimeUnit.SECONDS);
     }
 }

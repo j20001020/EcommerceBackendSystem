@@ -46,7 +46,7 @@ public class GcpUtil {
         return String.format("https://storage.cloud.google.com/%s/%s", BUCKET_NAME, objectName);
     }
 
-    /* 從 Secret Manager 中獲取 Secret 的內容 */
+    /* Get Secret content from Secret Manager */
     private static String getSecretPayload() throws IOException {
         try (SecretManagerServiceClient client = SecretManagerServiceClient.create()){
             String secretName = String.format("projects/%s/secrets/%s", PROJECT_ID, SECRET_ID);

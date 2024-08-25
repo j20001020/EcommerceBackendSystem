@@ -7,15 +7,16 @@ Tech Stack
 - Vue3.js
 - MySQL
 - GCP
+- Redis
 
 API
 -
 ### 1. User API
-#### 1.1 Reigster
-##### 1.1.1 Informatiom
+#### 1.1 Register
+##### 1.1.1 Information
 
-> Router: /users/register
-> Method: POST
+> Router: /users/register  
+> Method: POST  
 > Description: 註冊使用者帳號
 
 - No require authentication
@@ -56,10 +57,10 @@ Example:
 ```
 ---
 #### 1.2 Login
-##### 1.2.1 Informatiom
-> Router: /users/login
-> Method: POST
-> Description: 使用者登入
+##### 1.2.1 Information
+> Router: /users/login  
+> Method: POST  
+> Description: 使用者登入  
 
 - No require authentication
 
@@ -100,10 +101,10 @@ Example:
 ```
 ---
 #### 1.3 Get User By Id
-##### 1.3.1 Informatiom
-> Router: /users/{id}
-> Method: GET
-> Description: 取得該id的使用者資訊
+##### 1.3.1 Information
+> Router: /users/{id}  
+> Method: GET  
+> Description: 取得該id的使用者資訊 
 
 ##### 1.3.2 Request
 Parameter form: path variable
@@ -150,9 +151,9 @@ Example:
 ```
 ---
 #### 1.4 Update User Information
-##### 1.4.1 Informatiom
-> Router: /users/{id}
-> Method: PUT
+##### 1.4.1 Information
+> Router: /users/{id}  
+> Method: PUT  
 > Description: 更新該id的使用者資訊(除頭像和密碼)
 
 ##### 1.4.2 Request
@@ -199,9 +200,9 @@ Example:
 
 ---
 #### 1.5 Update User Image
-##### 1.5.1 Informatiom
-> Router: /users/{id}/image
-> Method: PATCH
+##### 1.5.1 Information
+> Router: /users/{id}/image  
+> Method: PATCH  
 > Description: 更新該id的使用者頭像
 
 ##### 1.5.2 Request
@@ -237,9 +238,9 @@ Example:
 
 ---
 #### 1.6 Update User Password
-##### 1.6.1 Informatiom
-> Router: /users/{id}/pwd
-> Method: PATCH
+##### 1.6.1 Information
+> Router: /users/{id}/pwd  
+> Method: PATCH  
 > Description: 更新該id的使用者密碼
 
 ##### 1.6.2 Request
@@ -281,8 +282,8 @@ Example:
 ### 2. Category API
 #### 2.1 Create Product Category
 ##### 2.1.1 Information
-> Router: /categories
-> Method: POST
+> Router: /categories  
+> Method: POST  
 > Description: 新增產品分類
 
 ##### 2.1.2 Request
@@ -322,8 +323,8 @@ Example:
 
 #### 2.2 Get Product Category List
 ##### 2.2.1 Information
-> Router: /categories
-> Method: GET
+> Router: /categories  
+> Method: GET  
 > Description: 取得產品分類列表
 
 ##### 2.2.2 Request
@@ -383,8 +384,8 @@ Example:
 
 #### 2.3 Get Product Category
 ##### 2.3.1 Information
-> Router: /categories/{id}
-> Method: GET
+> Router: /categories/{id}  
+> Method: GET  
 > Description: 取得該id的產品分類資訊
 
 ##### 2.3.2 Request
@@ -434,8 +435,8 @@ Example:
 
 #### 2.4 Update Product Category
 ##### 2.4.1 Information
-> Router: /categories/{id}
-> Method: PUT
+> Router: /categories/{id}  
+> Method: PUT  
 > Description: 更新該id的產品分類資訊
 
 ##### 2.4.2 Request
@@ -480,8 +481,8 @@ Example:
 
 #### 2.5 Delete Product Category
 ##### 2.5.1 Information
-> Router: /categories/{id}
-> Method: DELETE
+> Router: /categories/{id}  
+> Method: DELETE  
 > Description: 刪除該id的產品分類資訊
 
 ##### 2.5.2 Request
@@ -519,8 +520,8 @@ Example:
 ### 3. Product API
 #### 3.1 Create Product
 ##### 3.1.1 Information
-> Router: /products
-> Method: POST
+> Router: /products  
+> Method: POST  
 > Description: 新增產品
 
 ##### 3.1.2 Request
@@ -571,8 +572,8 @@ Example:
 
 #### 3.2 Get Product List By Page 
 ##### 3.2.1 Information
-> Router: /products
-> Method: GET
+> Router: /products  
+> Method: GET  
 > Description: 根據頁數取得產品資訊列表
 
 ##### 3.2.2 Request
@@ -618,47 +619,48 @@ Example:
 {
   "status": 200,
   "message": "success",
-  "data": 
+  "data": {
     "total": 2,
     "items": [
-        {
-            "id": 2,
-            "productName": "長袖T恤",
-            "description": "產品敘述",
-            "price": 450,
-            "stockQuantity": 30,
-            "categoryId": 1,
-            "productImg": "https://i.imgur.com/bCclExz.jpg",
-            "remark": "備註事項",
-            "createdBy": 2,
-            "createdTime": "2024-08-20 06:31:25",
-            "updatedBy": 2,
-            "updatedTime": "2024-08-20 06:31:25"
-        },
-        {
-            "id": 3,
-            "productName": "短袖T恤",
-            "description": "產品敘述",
-            "price": 350,
-            "stockQuantity": 40,
-            "categoryId": 1,
-            "productImg": "https://i.imgur.com/bCclExz.jpg",
-            "remark": "備註事項",
-            "createdBy": 2,
-            "createdTime": "2024-08-20 06:31:25",
-            "updatedBy": 2,
-            "updatedTime": "2024-08-20 06:31:25"
-        }
+      {
+        "id": 2,
+        "productName": "長袖T恤",
+        "description": "產品敘述",
+        "price": 450,
+        "stockQuantity": 30,
+        "categoryId": 1,
+        "productImg": "https://i.imgur.com/bCclExz.jpg",
+        "remark": "備註事項",
+        "createdBy": 2,
+        "createdTime": "2024-08-20 06:31:25",
+        "updatedBy": 2,
+        "updatedTime": "2024-08-20 06:31:25"
+      },
+      {
+        "id": 3,
+        "productName": "短袖T恤",
+        "description": "產品敘述",
+        "price": 350,
+        "stockQuantity": 40,
+        "categoryId": 1,
+        "productImg": "https://i.imgur.com/bCclExz.jpg",
+        "remark": "備註事項",
+        "createdBy": 2,
+        "createdTime": "2024-08-20 06:31:25",
+        "updatedBy": 2,
+        "updatedTime": "2024-08-20 06:31:25"
+      }
     ]
+  }
 }
 ```
 
 ---
 
-#### 3.3 Get Product By Id 
+#### 3.3 Get Product By ID
 ##### 3.3.1 Information
-> Router: /products/{id}
-> Method: GET
+> Router: /products/{id}  
+> Method: GET  
 > Description: 取得該id的產品資訊
 
 ##### 3.3.2 Request
@@ -722,8 +724,8 @@ Example:
 
 #### 3.4 Update Product
 ##### 3.4.1 Information
-> Router: /products/{id}
-> Method: PUT
+> Router: /products/{id}  
+> Method: PUT  
 > Description: 更新該id的產品資訊
 
 ##### 3.4.2 Request
@@ -777,8 +779,8 @@ Example:
 
 #### 3.5 Delete Product
 ##### 3.5.1 Information
-> Router: /products/{id}
-> Method: DELETE
+> Router: /products/{id}  
+> Method: DELETE  
 > Description: 刪除該id的產品資訊
 
 ##### 3.5.2 Request
@@ -817,8 +819,8 @@ Example:
 ### 4. File API
 #### 4.1 File Upload
 ##### 4.1.1 Information
-> Router: /files
-> Method: POST
+> Router: /files  
+> Method: POST  
 > Description: 上傳檔案
 
 ##### 4.1.2 Request

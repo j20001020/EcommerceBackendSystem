@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,11 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final List<String> excludedPaths;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, @Value("${jwt.excluded-paths}") String excludedPaths) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, @Value("${jwt.excluded-paths}") String excludedPaths, StringRedisTemplate stringRedisTemplate) {
         this.jwtUtil = jwtUtil;
         this.excludedPaths = List.of(excludedPaths.split(","));
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     @Override
@@ -49,8 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authHeader.substring(BEARER_PREFIX.length());
 
+        String redisToken = getRedisToken(jwt);
+
         Claims claims;
         try {
+            if (redisToken == null) throw new JwtException("Token validation failed");
             claims = jwtUtil.parseToken(jwt);
         } catch (JwtException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -62,6 +69,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         setAuthentication(user);
 
         filterChain.doFilter(request, response);
+    }
+
+    private String getRedisToken(String jwt) {
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        return operations.get(jwt);
     }
 
     private void setAuthentication(User user) {
