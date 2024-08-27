@@ -932,3 +932,25 @@ gcloud init
 gcloud auth application-default login
 ```
 A sign-in screen appears. After you sign in, your credentials are stored in the local credential file used by ADC.
+
+Docker
+-
+
+> Deploy on docker container
+
+Container: 
+1. Spring boot backend
+   * port: 8080
+2. Redis
+   * port: 6379 
+
+Add containers of project to same docker network: 
+```
+docker network create <network-name>
+docker network connect <network-name> <redis-container-id>
+docker network connect <network-name> <spring-boot-container-id>
+```
+
+```
+docker network inspect <network-name> // check network info
+```

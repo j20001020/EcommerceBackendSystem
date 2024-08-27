@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://host.docker.internal:3306/e_commerce?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=UTF-8
+  data:
+    redis:
+      host: Redis
