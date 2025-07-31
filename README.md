@@ -4,8 +4,8 @@ E-commerce Backend System
 Tech Stack
 -
 - Spring boot
-- Vue3.js
 - MySQL
+- Docker
 - GCP
 - Redis
 
